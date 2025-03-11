@@ -1,0 +1,101 @@
+<div class="w-4/5 mx-auto p-4">
+  <h3>Add Tweet</h3>
+
+  <div class="flex flex-col gap-2 py-2">
+    <mat-slide-toggle color="primary" [checked]="autoAdd" (change)="changeAutoAdd($event)">
+      Auto add
+    </mat-slide-toggle>
+
+    <mat-form-field *ngIf="autoAdd" appearance="legacy">
+      <mat-label>Random Tweets</mat-label>
+      <mat-select [(ngModel)]="randomTweetSelectOption">
+        <mat-option *ngFor="let option of randomTweetOptions" [value]="option">
+          x{{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="createTweetFrom">
+    <mat-form-field class="w-full" appearance="legacy">
+      <mat-label>User Tweet</mat-label>
+      <mat-select formControlName="user" (click)="touchSearchUser(inputSearchUser)">
+        <input
+          #inputSearchUser
+          matInput
+          style="padding: 10px;"
+          placeholder="Type user..."
+          formControlName="userSearch"
+        />
+        <mat-option *ngFor="let user of users$ | async; let i = index" [value]="user">
+          <div class="flex gap-2 items-center">
+            <div class="w-10 h-10 rounded-full overflow-hidden">
+              <img class="w-full" [src]="user.profile_image_url" />
+            </div>
+            <span>{{user.name}}</span>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="legacy">
+      <textarea formControlName="caption" matInput placeholder="Tweet..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="legacy">
+      <app-random-location formControlName="place"></app-random-location>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="legacy">
+      <mat-chip-list [disabled]="autoAdd" #chipList aria-label="Rule selection">
+        <mat-chip
+          *ngFor="let tag of tags.controls"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(tag)"
+        >
+          {{tag.value?.tag}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Tags"
+          #searchInput
+          formControlName="tagSearch"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+          (input)="searchTags$.next($event.target.value)"
+          (click)="touchSearchTag()"
+        />
+      </mat-chip-list>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        autoActiveFirstOption
+        (optionSelected)="selectedTag($event)"
+      >
+        <mat-option *ngFor="let tag of tags$ | async" [value]="tag">
+          <div class="flex gap-2">
+            <div class="w-10 h-10">
+              <img class="w-full" [src]="tag.thumb" />
+            </div>
+            <span>{{ tag.tag }}</span>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="autoAdd ? !randomTweetSelectOption: !createTweetFrom.valid"
+    (click)="submit()"
+  >
+    Submit
+  </button>
+
+  <!-- <pre>{{ createTweetFrom.value | json }}</pre> -->
+</div>

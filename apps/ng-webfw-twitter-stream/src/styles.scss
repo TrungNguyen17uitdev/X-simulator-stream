@@ -1,0 +1,13 @@
+@import '../../../node_modules/@angular/cdk/overlay-prebuilt.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+@import 'tailwindcss/base';
+@import 'ngx-toastr/toastr';
+@import './styles/tailwind/base.scss';
+@import 'tailwindcss/components';
+@import './styles/tailwind/components.scss';
+@import 'tailwindcss/utilities';
+@import './styles/tailwind/utilities.scss';
+
+body {
+  @apply bg-background text-white;
+}

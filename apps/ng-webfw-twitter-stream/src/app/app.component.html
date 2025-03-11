@@ -1,0 +1,9 @@
+<mat-toolbar>
+  <a routerLink="/">Hacker Tweet Observer 💻</a>
+  <span class="spacer"></span>
+  <button mat-button [routerLink]="['create', 'tweet']">Create tweet</button>
+  <button mat-button [routerLink]="['create', 'user']">Create user</button>
+  <button mat-button [routerLink]="['create', 'rule']">Create rule</button>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

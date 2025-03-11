@@ -1,0 +1,127 @@
+<form [formGroup]="form">
+  <mat-form-field class="w-full" appearance="legacy">
+    <mat-chip-list #chipList aria-label="Rule selection">
+      <mat-chip
+        *ngFor="let tag of rulesControl.controls; let i = index"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(i)"
+      >
+        {{tag.value?.tag }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Tags"
+        #searchInput
+        formControlName="tagSearch"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+        (input)="searchTags$.next($event.target.value)"
+        (click)="touchSearchTag()"
+      />
+    </mat-chip-list>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      autoActiveFirstOption
+      (optionSelected)="selectedTag($event)"
+    >
+      <mat-option *ngFor="let tag of tags$ | async" [value]="tag">
+        <div class="flex gap-2">
+          <div class="w-10 h-10">
+            <img class="w-full" [src]="tag.thumb" />
+          </div>
+          <span>{{ tag.tag }}</span>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <!-- <div formArrayName="rules">
+    <button
+      class="btn btn-secondary btn-sm gradient-right-secondary mb-2"
+      type="button"
+      (click)="addNewRuleControl()"
+    >
+      Add Rule
+    </button>
+    <div *ngFor="let ruleControl of rulesControl.controls; let i = index">
+      <div class="p-4 mb-4 border border-gray-dark rounded" [formGroupName]="i">
+        <div class="grid grid-cols-4 grid-rows-2 gap-4">
+          <app-settings-input
+            id="tag"
+            label="Tag*"
+            placeholder="Unique tag"
+            [control]="$any(ruleControl.get('tag'))"
+          ></app-settings-input>
+          <app-settings-input
+            id="label"
+            label="Label"
+            placeholder="Chart label"
+            [control]="$any(ruleControl.get('label'))"
+          ></app-settings-input>
+          <app-settings-input
+            id="color"
+            label="Color"
+            placeholder="Chart color (hex string)"
+            [control]="$any(ruleControl.get('color'))"
+          ></app-settings-input>
+          <app-settings-input
+            id="marker"
+            label="Marker Image URL"
+            placeholder="Image URL for map marker"
+            [control]="$any(ruleControl.get('marker'))"
+          ></app-settings-input>
+          <app-settings-input
+            class="col-span-4"
+            id="query"
+            label="Query*"
+            placeholder="Twitter query value"
+            [control]="$any(ruleControl.get('query'))"
+          ></app-settings-input>
+        </div>
+        <button
+          class="btn btn-sm btn-primary gradient-right-primary mt-4"
+          type="button"
+          (click)="removeRule(ruleControl, i)"
+        >
+          Remove rule
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-between">
+    <a
+      class="link"
+      href="https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule"
+      target="_blank"
+    >
+      Twitter API Documentations - Build Rules
+    </a>
+    <section>
+      <button
+        class="btn btn-primary gradient-right-primary"
+        type="button"
+        [disabled]="isConfirmedDisabled || form.invalid"
+        (click)="confirm()"
+      >
+        Confirm
+      </button>
+      <button
+        class="btn btn-secondary gradient-right-secondary ml-4"
+        type="button"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+    </section>
+  </div> -->
+  <button
+    class="btn btn-primary gradient-right-primary"
+    type="button"
+    [disabled]="isConfirmedDisabled || form.invalid"
+    (click)="confirm()"
+  >
+    Confirm
+  </button>
+</form>

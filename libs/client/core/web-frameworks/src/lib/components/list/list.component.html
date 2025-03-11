@@ -1,0 +1,33 @@
+<div
+  class="absolute h-full w-full overflow-auto border border-gray-700"
+  [@listAnimation]="tweets.length"
+>
+  <cdk-virtual-scroll-viewport class="h-full" autosize *ngIf="!!tweets.length; else noTweet">
+    <div
+      *cdkVirtualFor="let tweet of tweets; trackBy: trackByFn"
+      class="bg-white text-black border p-2 flex flex-col m-4 rounded"
+    >
+      <a [href]="tweet.url" target="_blank">
+        <div class="flex items-center">
+          <img
+            class="h-12 w-12 rounded-full"
+            [src]="tweet.author.profileImage"
+            alt="Avatar of tweet author"
+          />
+          <div class="flex flex-col ml-2">
+            <h6>{{ tweet.author.name }}</h6>
+            <span class="text-sm">{{ tweet.createdAt | date : 'short' }}</span>
+            <span class="text-sm text-gray-dark"> @{{ tweet.author.username }} </span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-1">
+          <span *ngFor="let tag of tweet.tags" class="font-bold">#{{tag}}</span>
+        </div>
+        <div class="mt-2" [innerHTML]="tweet.text"></div>
+      </a>
+    </div>
+  </cdk-virtual-scroll-viewport>
+  <ng-template #noTweet>
+    <span class="relative mx-4">Waiting for incoming tweets...</span>
+  </ng-template>
+</div>

@@ -1,0 +1,94 @@
+<div class="w-4/5 mx-auto p-4">
+  <h3 class="my-5">Add User</h3>
+
+  <div class="flex flex-col gap-2 py-2">
+    <mat-slide-toggle
+      style="width: fit-content;"
+      color="primary"
+      [checked]="autoAdd"
+      (change)="changeAutoAdd($event)"
+    >
+      Auto add
+    </mat-slide-toggle>
+
+    <mat-form-field *ngIf="autoAdd" appearance="legacy">
+      <mat-label>Random Users</mat-label>
+      <mat-select [(ngModel)]="randomUserSelectOption">
+        <mat-option *ngFor="let option of randomUserOptions" [value]="option">
+          x{{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <form [formGroup]="createUserFrom" (ngSubmit)="submit()">
+    <mat-list formArrayName="users">
+      <ng-container *ngFor="let user of users.controls; let i = index">
+        <mat-list-item style="height: fit-content; padding-top: 20px;" [formGroupName]="i">
+          <div class="flex gap-2 w-full items-center">
+            <input
+              #inputImage
+              type="file"
+              accept="image/*"
+              [hidden]="true"
+              (change)="handleChangeFile($event.target, i)"
+            />
+
+            <button
+              mat-icon-button
+              style="overflow: hidden;"
+              type="button"
+              (click)="inputImage.click()"
+              matBadgeColor="primary"
+              matBadgeSize="small"
+              matBadge="+"
+            >
+              <img class="w-full" [src]="user.value.profile_image_url" />
+            </button>
+
+            <mat-form-field mat class="flex-1" appearance="legacy">
+              <mat-label mat aria-required="true">Name</mat-label>
+              <input required matInput formControlName="name" placeholder="User name" />
+            </mat-form-field>
+
+            <button
+              *ngIf="users.controls.length > 1"
+              mat-icon-button
+              type="button"
+              aria-label="Remove"
+              (click)="remove(i)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+
+      <mat-list-item>
+        <button
+          mat-raised-button
+          type="button"
+          color="accent"
+          [disabled]="autoAdd"
+          (click)="addUser()"
+        >
+          Add user
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </form>
+
+  <div class="mt-4">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="autoAdd ? !randomUserSelectOption: !createUserFrom.valid"
+      (click)="submit()"
+    >
+      Submit
+    </button>
+  </div>
+</div>

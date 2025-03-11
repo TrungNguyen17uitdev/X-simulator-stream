@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0 # Use MongoDB version 5.0
+    container_name: TW_GIS
+    ports:
+      - "27017:27017" # Expose MongoDB port
+    environment:
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: 123
+    volumes:
+      - mongodb_data:/data/db # Persist MongoDB data
+
+volumes:
+  mongodb_data:

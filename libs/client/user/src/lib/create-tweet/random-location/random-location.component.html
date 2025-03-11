@@ -1,0 +1,45 @@
+<div class="flex gap-2" [formGroup]="form">
+  <div class="flex items-center gap-2">
+    <mat-form-field class="w-full" appearance="legacy">
+      <mat-label>Country</mat-label>
+      <mat-select
+        formControlName="country"
+        placeholder="Country"
+        (click)="touchSelect(inputSearch)"
+      >
+        <input
+          #inputSearch
+          matInput
+          style="padding: 10px;"
+          placeholder="Search country..."
+          formControlName="searchCountry"
+        />
+        <mat-option
+          *ngFor="let country of countries$ | async; let i = index"
+          [value]="country.cca2"
+        >
+          {{ country | country }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      type="button"
+      color="accent"
+      style="min-width: unset"
+      [disabled]="disabled"
+      (click)="generate()"
+    >
+      Generate location
+    </button>
+  </div>
+
+  <mat-list *ngIf="value">
+    <mat-list-item>
+      <mat-icon mat-list-icon class="material-icons-outlined">place</mat-icon>
+      <div mat-line>{{ value.full_name }}</div>
+      <div mat-line>Location: [{{value.bbox[0]}}, {{value.bbox[1]}}]</div>
+    </mat-list-item>
+  </mat-list>
+</div>
