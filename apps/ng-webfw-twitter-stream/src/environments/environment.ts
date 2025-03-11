@@ -4,18 +4,18 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3333',
-  randomUserApiUrl: 'https://randomuser.me/api',
-  randomLocationApiUrl: 'https://hiveword.com/papi',
-  countriesApiUrl: 'https://restcountries.com/v3.1',
-  captionApiUrl: 'https://jsonplaceholder.typicode.com/posts',
+  apiUrl: '',
+  randomUserApiUrl: '',
+  randomLocationApiUrl: '',
+  countriesApiUrl: '',
+  captionApiUrl: '',
   firebaseConfig: {
-    apiKey: 'AIzaSyAenIlf2tdBgigAND1EC5qbtvE1g-cMo4E',
-    authDomain: 'rem-app-113.firebaseapp.com',
-    projectId: 'rem-app-113',
-    storageBucket: 'rem-app-113.appspot.com',
-    messagingSenderId: '342831982247',
-    appId: '1:342831982247:web:8c7f4dd636412c7c569d82',
+    apiKey: '',
+    authDomain: '',
+    projectId: '',
+    storageBucket: '',
+    messagingSenderId: '',
+    appId: '',
   },
 };
 
